@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Tema base de la app. -->
+    <style name="Base.Theme.ElevatechApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Color de marca de ElevaTech (#2f5d8a). -->
+        <item name="colorPrimary">@color/color_principal</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+    <style name="Theme.ElevatechApp" parent="Base.Theme.ElevatechApp" />
+</resources>
