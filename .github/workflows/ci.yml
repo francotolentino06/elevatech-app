@@ -28,8 +28,25 @@ jobs:
         with:
           packages: 'platform-tools'
 
-      - name: Install Android SDK platform 37
-        run: sdkmanager "platforms;android-37"
+      - name: Install Android SDK platform 37.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
+          if [ -z "$SDK_ROOT" ]; then
+            echo "Android SDK root was not found in ANDROID_SDK_ROOT or ANDROID_HOME."
+            exit 1
+          fi
+
+          sdkmanager --sdk_root="$SDK_ROOT" --channel=3 "platforms;android-37.0"
+
+          # AGP resolves compileSdk 37 using the android-37 directory name.
+          # The SDK Manager currently installs this platform as android-37.0.
+          if [ -d "$SDK_ROOT/platforms/android-37.0" ] && [ ! -e "$SDK_ROOT/platforms/android-37" ]; then
+            ln -s android-37.0 "$SDK_ROOT/platforms/android-37"
+          fi
+
+          test -d "$SDK_ROOT/platforms/android-37"
 
       - name: Grant execute permission to Gradle wrapper
         run: chmod +x ./gradlew
